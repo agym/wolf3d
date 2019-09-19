@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agym <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: ymoukhli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/03 16:27:56 by agym              #+#    #+#             */
-/*   Updated: 2019/04/09 01:02:51 by agym             ###   ########.fr       */
+/*   Created: 2018/10/08 16:45:44 by ymoukhli          #+#    #+#             */
+/*   Updated: 2018/10/15 21:15:40 by ymoukhli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,25 @@
 char		*ft_strtrim(char const *s)
 {
 	int		i;
+	char	*c;
 	int		j;
 
+	if (!s)
+		return (NULL);
 	i = 0;
-	j = 0;
-	if (s)
+	j = ft_strlen((char *)s);
+	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
+		i++;
+	if (s[i] == '\0')
 	{
-		j = ft_strlen(s);
-		while ((s[i] == ' ' || s[i] == '\t' || s[i] == '\n') && s[i])
-			i++;
-		if (s[i] == '\0')
-			return (ft_strdup(""));
-		while ((s[j - 1] == ' ' || s[j - 1] == '\t' ||
-					s[j - 1] == '\n') && s[i])
-			j--;
-		return (ft_strsub(s, i, (j - i)));
+		if (!(c = (char *)malloc(1)))
+			return (NULL);
+		c[0] = '\0';
+		return (c);
 	}
-	return (NULL);
+	while (s[j - 1] == ' ' || s[j - 1] == '\n' || s[j - 1] == '\t')
+		j--;
+	if (!(c = ft_strsub(s, i, j - i)))
+		return (NULL);
+	return (c);
 }

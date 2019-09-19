@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agym <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: ymoukhli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/02 04:08:36 by agym              #+#    #+#             */
-/*   Updated: 2019/04/08 23:39:23 by agym             ###   ########.fr       */
+/*   Created: 2018/10/07 16:53:55 by ymoukhli          #+#    #+#             */
+/*   Updated: 2018/10/13 00:36:58 by ymoukhli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strnew(size_t size)
+char	*ft_strnew(size_t size)
 {
-	char	*chaine;
+	char	*s;
+	size_t	i;
 
-	if (!(chaine = (char *)malloc(sizeof(char) * (size + 1))))
+	i = 0;
+	if (!(s = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	ft_bzero((void *)chaine, size + 1);
-	return (chaine);
+	while (i <= size)
+		s[i++] = '\0';
+	return (s);
 }

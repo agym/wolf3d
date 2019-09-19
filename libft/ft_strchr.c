@@ -3,36 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agym <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: ymoukhli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/30 16:06:35 by agym              #+#    #+#             */
-/*   Updated: 2019/04/03 17:11:00 by agym             ###   ########.fr       */
+/*   Created: 2018/10/06 18:13:58 by ymoukhli          #+#    #+#             */
+/*   Updated: 2018/10/15 21:15:35 by ymoukhli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char				*ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	int				i;
-	unsigned char	*s2;
-	int				len;
+	int		i;
+	char	a;
+	char	*v;
 
-	s2 = (unsigned char *)s;
 	i = 0;
-	len = ft_strlen(s);
-	while (s2[i] != '\0')
+	a = (char)c;
+	v = (char *)s;
+	while (v[i] != '\0')
 	{
-		if (s2[i] == c)
-			return ((char *)s);
+		if (v[i] == a)
+			return (v + i);
 		i++;
-		s++;
 	}
-	if (s2[i] != c)
-		return (NULL);
-	else if (s2[i] == '\0')
-		return ((char *)s2 + len);
-	else
-		return ((char *)s2);
+	if (v[i] == a)
+		return (v + i);
 	return (0);
 }

@@ -3,40 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agym <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: ymoukhli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/02 23:22:01 by agym              #+#    #+#             */
-/*   Updated: 2019/04/09 00:10:18 by agym             ###   ########.fr       */
+/*   Created: 2018/10/08 15:08:20 by ymoukhli          #+#    #+#             */
+/*   Updated: 2018/10/14 23:30:07 by ymoukhli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strsub(char const *s, unsigned int start, size_t len)
+char	*ft_strsub(char const *s, unsigned int start, size_t n)
 {
-	char	*s1;
-	size_t	lens;
-	size_t	i;
-	size_t	j;
+	char	*sub_s;
+	int		i;
 
+	if (!s)
+		return (NULL);
 	i = 0;
-	if (s)
+	if (!(sub_s = (char *)malloc((n + 1) * sizeof(char))))
+		return (NULL);
+	while (n--)
 	{
-		lens = ft_strlen(s);
-		if (start >= lens)
-			return (NULL);
-		else
-		{
-			j = start;
-			if ((s1 = (char *)malloc(sizeof(char) * (len + 1))))
-			{
-				while (s[j] && j < start + len)
-					s1[i++] = s[j++];
-				s1[i] = '\0';
-				return (s1);
-			}
-			return (NULL);
-		}
+		sub_s[i] = s[i + start];
+		i++;
 	}
-	return (NULL);
+	sub_s[i] = '\0';
+	return (sub_s);
 }

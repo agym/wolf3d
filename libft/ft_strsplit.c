@@ -1,85 +1,75 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agym <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: ymoukhli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/03 21:41:57 by agym              #+#    #+#             */
-/*   Updated: 2019/04/08 22:45:54 by agym             ###   ########.fr       */
+/*   Created: 2018/10/08 17:58:55 by ymoukhli          #+#    #+#             */
+/*   Updated: 2018/10/15 20:48:25 by ymoukhli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		long_words(const char *s, char c, char **tab)
+static	int		ft_arrays(char *s, char c)
 {
-	size_t		i;
-	size_t		j;
-	size_t		len;
+	int j;
 
-	i = 0;
 	j = 0;
-	len = 0;
-	while (s[i])
+	while (*s)
 	{
-		if (s[i] != c)
-			len++;
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+		if (*s != c)
 		{
-			tab[j++] = (char *)malloc(sizeof(char) * (len + 1));
-			len = 0;
+			j++;
+			while (*s != c && *s)
+				s++;
 		}
-		i++;
+		else
+			s++;
 	}
+	return (j);
 }
 
-static char		**ft_strcppi(const char *s, char c, char **tab)
+static	char	**ft_leni(char *s, char c, int j)
 {
-	size_t		i;
-	size_t		j;
-	size_t		len;
+	int		i;
+	char	**strs;
 
-	i = 0;
-	j = 0;
-	len = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-			tab[len][j++] = s[i];
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-		{
-			tab[len][j] = '\0';
-			j = 0;
-			len++;
-		}
-		i++;
-	}
-	return (tab);
-}
-
-char			**ft_strsplit(const char *s, char c)
-{
-	char		**tab;
-	size_t		i;
-	size_t		j;
-
-	i = 0;
-	j = 0;
-	if (s)
-	{
-		while (s[i])
-		{
-			if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-				j++;
-			i++;
-		}
-		if (!(tab = (char **)malloc(sizeof(char *) * (j + 1))))
+	i = ft_arrays(s, c);
+	if (!(strs = (char **)malloc((i + 1) * sizeof(char *))))
+		return (NULL);
+	while (i--)
+		if (!(strs[i] = (char *)malloc(sizeof(char) * (j + 1))))
 			return (NULL);
-		tab[j] = NULL;
-		long_words(s, c, tab);
-		ft_strcppi(s, c, tab);
-		return (tab);
+	return (strs);
+}
+
+char			**ft_strsplit(char const *s, char c)
+{
+	char	**strs;
+	int		j;
+	int		l;
+
+	if (!s || !c)
+		return (NULL);
+	if (!(strs = ft_leni((char *)s, c, ft_strlen(s))))
+		return (NULL);
+	j = 0;
+	l = 0;
+	while (*s)
+	{
+		if (*s != c)
+		{
+			strs[j][l++] = *s;
+			if (*(s + 1) == c || *(s + 1) == '\0')
+			{
+				strs[j++][l] = '\0';
+				l = 0;
+			}
+		}
+		s++;
 	}
-	return (NULL);
+	strs[j] = 0;
+	return (strs);
 }

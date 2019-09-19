@@ -3,63 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agym <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: ymoukhli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 22:01:49 by agym              #+#    #+#             */
-/*   Updated: 2019/04/09 01:06:08 by agym             ###   ########.fr       */
+/*   Created: 2018/10/09 00:23:06 by ymoukhli          #+#    #+#             */
+/*   Updated: 2018/10/13 00:56:57 by ymoukhli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int			lentotal(int n)
-{
-	long			b;
-	int				len;
+#define CHECK(n)	n < 0 ? i : i + 1
 
-	len = 0;
-	if (n == 0)
-		return (1);
-	if (n < 0)
+static int		ft_size(int i)
+{
+	int j;
+
+	j = 1;
+	while (i > 9 || i < 0)
 	{
-		len++;
-		b = n * -1;
+		i = i / 10;
+		j++;
 	}
-	else
-		b = n;
-	while (b != 0)
-	{
-		b = b / 10;
-		len++;
-	}
-	return (len);
+	return (j);
 }
 
-char				*ft_itoa(int n)
+char			*ft_itoa(int n)
 {
-	unsigned int	nb;
-	char			*nb1;
-	int				i;
+	char	*s;
+	int		i;
+	int		ss;
 
-	if ((nb1 = (char *)malloc(sizeof(char) * (lentotal(n) + 1))))
+	ss = 1;
+	i = ft_size(n);
+	if (!(s = (char *)malloc(i + 1)))
+		return (NULL);
+	if (n < 0)
 	{
-		if (n < 0)
-		{
-			nb1[0] = '-';
-			nb = n * -1;
-		}
-		else
-			nb = n;
-		if (nb == 0)
-			nb1[0] = '0';
-		nb1[lentotal(n)] = '\0';
-		i = lentotal(n) - 1;
-		while (nb != 0)
-		{
-			nb1[i--] = nb % 10 + '0';
-			nb = nb / 10;
-		}
-		return (nb1);
+		ss = -1;
+		s[0] = '-';
 	}
-	return (NULL);
+	s[i--] = '\0';
+	while (CHECK(n) > 0)
+	{
+		s[i--] = ((n % 10) * ss) + '0';
+		if (n > 9 || n < -9)
+			n = n / 10;
+	}
+	return (s);
 }

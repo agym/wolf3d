@@ -3,36 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agym <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: ymoukhli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/02 21:01:28 by agym              #+#    #+#             */
-/*   Updated: 2019/04/03 22:00:05 by agym             ###   ########.fr       */
+/*   Created: 2018/10/08 14:04:03 by ymoukhli          #+#    #+#             */
+/*   Updated: 2018/10/14 23:09:44 by ymoukhli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char				*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	unsigned int	lens;
-	unsigned int	i;
-	char			*s1;
+	char	*f_s;
+	int		i;
 
+	if (!s || !f)
+		return (NULL);
 	i = 0;
-	if (s)
+	while (s[i] != '\0')
+		i++;
+	if (!(f_s = (char *)malloc((i + 1) * sizeof(char))))
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
 	{
-		lens = ft_strlen(s);
-		s1 = (char *)malloc(sizeof(char) * (lens + 1));
-		if (s1)
-		{
-			while (s[i])
-			{
-				s1[i] = (*f)(i, s[i]);
-				i++;
-			}
-			s1[i] = '\0';
-			return (s1);
-		}
+		f_s[i] = f(i, s[i]);
+		i++;
 	}
-	return (NULL);
+	f_s[i] = '\0';
+	return (f_s);
 }
