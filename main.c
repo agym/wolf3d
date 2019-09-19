@@ -6,7 +6,7 @@
 /*   By: agym <agym@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 18:16:33 by ymoukhli          #+#    #+#             */
-/*   Updated: 2019/09/19 14:55:15 by agym             ###   ########.fr       */
+/*   Updated: 2019/09/19 19:02:56 by agym             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,7 @@ t_hit t2, double l)
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGTH)
 		return ;
 	i = y * HEIGTH + x;
-	p->data[i] = p->text[0].data[64 * (int)temp.x + (int)temp.y];
+	p->data[i] = p->text[0].data[64 * (y % 64) + (int)temp.y];
 }
 
 void	ft_draw_colum(double distance, double plane_distance,
@@ -400,11 +400,25 @@ void	ft_init(t_p *p, t_map map)
 	ft_loop(ply, map, p);
 }
 
+int ft_close(void *param)
+{
+	t_p *p;
+	
+	p = (t_p *)param;
+	mlx_destroy_image(p->init, p->img);
+	mlx_destroy_window(p->init, p->win);
+	free(p);
+	puts("-----------------------------");
+    exit(0);
+}
+
 int		t_kees(int key, t_p *p)
 {
 	int step;
 
 	step = 3;
+	if (key == 53)
+		ft_close(p);
 	if (key == 126 || key == 13)
 		p->player.pos = vec_add(p->player.pos, vec_mult(p->player.dir, step));
 	if (key == 125 || key == 1)
@@ -432,6 +446,13 @@ int		t_kees(int key, t_p *p)
 	return (1);
 }
 
+int			mlx_events(t_p *p)
+{
+	mlx_hook(p->win, 2, 17, t_kees, p);
+	mlx_hook(p->win, 17, 0, ft_close, p);
+	return (0);
+}
+
 int main(int ac, char **av)
 {
 	t_p *p;
@@ -442,6 +463,7 @@ int main(int ac, char **av)
 	ft_mlx_init(p);
 	p->map = ft_read_file(av[1]);
 	ft_init(p, p->map);
+	mlx_events(p);
 	mlx_hook(p->win, 2, 1, t_kees, p);
 	mlx_loop(p->init);
 }
