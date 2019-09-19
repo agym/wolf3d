@@ -6,7 +6,7 @@
 /*   By: agym <agym@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 18:16:33 by ymoukhli          #+#    #+#             */
-/*   Updated: 2019/09/19 19:02:56 by agym             ###   ########.fr       */
+/*   Updated: 2019/09/19 19:29:35 by agym             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -408,7 +408,6 @@ int ft_close(void *param)
 	mlx_destroy_image(p->init, p->img);
 	mlx_destroy_window(p->init, p->win);
 	free(p);
-	puts("-----------------------------");
     exit(0);
 }
 
@@ -416,7 +415,7 @@ int		t_kees(int key, t_p *p)
 {
 	int step;
 
-	step = 3;
+	step = 6;
 	if (key == 53)
 		ft_close(p);
 	if (key == 126 || key == 13)
@@ -439,18 +438,9 @@ int		t_kees(int key, t_p *p)
 		p->player.dir = vec_rot(p->player.dir, 0.1);
 	if (key == 38)
 		p->player.dir = vec_rot(p->player.dir, -0.1);
-	if (key == 53)
-		exit(0);
 	ft_bzero(p->data, WIDTH * HEIGTH * 4);
 	ft_loop(p->player, p->map, p);
 	return (1);
-}
-
-int			mlx_events(t_p *p)
-{
-	mlx_hook(p->win, 2, 17, t_kees, p);
-	mlx_hook(p->win, 17, 0, ft_close, p);
-	return (0);
 }
 
 int main(int ac, char **av)
@@ -463,7 +453,6 @@ int main(int ac, char **av)
 	ft_mlx_init(p);
 	p->map = ft_read_file(av[1]);
 	ft_init(p, p->map);
-	mlx_events(p);
 	mlx_hook(p->win, 2, 1, t_kees, p);
 	mlx_loop(p->init);
 }
